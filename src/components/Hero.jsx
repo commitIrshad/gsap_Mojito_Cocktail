@@ -5,7 +5,7 @@ import { SplitText } from 'gsap/all';
 import { useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
-function Hero() {
+const Hero = () => {
 
   const videoRef = useRef(); // useRef using for video
   const isMobile = useMediaQuery({ maxWidth: 767 }); //media quesry for mobile
