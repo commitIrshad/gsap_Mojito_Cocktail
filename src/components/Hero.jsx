@@ -2,8 +2,14 @@ import React from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap';
 import { SplitText } from 'gsap/all';
+import { useRef } from 'react';
+import { useMediaQuery } from 'react-responsive';
+
 function Hero() {
-  
+
+  const videoRef = useRef(); // useRef using for video
+  const isMobile = useMediaQuery({ maxWidth: 767 }); //media quesry for mobile
+
   useGSAP( ()=>{
     const heroSplit = new SplitText('.title', { type: 'chars, words'} ); // SplitTet is Pluggin to split the text and application of animation.
     const paragraphSplit = new SplitText('.subtitle', { type: 'lines'}); // splitting first on the basis of lines.
@@ -39,7 +45,28 @@ function Hero() {
         }
     })
     .to('.right-leaf', {y:200}, 0)
-    .to('.left-leaf', {y:-200}, 0 )
+    .to('.left-leaf', {y:-200}, 0 );
+
+    const startValue = isMobile ?  'top 50%' : 'center 60%'; //Incase of mobile measures changes, so we have dynamic condition
+    const endValue = isMobile ? '120% top' : 'bottom top;';
+
+    // video animation timeline
+    //create the timeline with a default duration
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: '#hero',
+            start: startValue,
+            end: endValue,
+            scrub: true,
+            pin: true, //this will make video stuck on the display untill user scrolls
+        }
+    })
+
+    videoRef.current.onloadedmetadata = () => {
+        tl.to( videoRef.current,{
+            currentTime: videoRef.current.duration
+        })
+    }
 
 }, []); //useGSAP ends
 
@@ -78,6 +105,17 @@ function Hero() {
         </div>
       </div>
     </section>
+
+    <div className='video absolute inset-0'>
+        <video
+            ref={videoRef}
+            playsInline
+            muted
+            preload='auto'
+            src="/videos/output.mp4"
+            
+        />
+    </div>
    </>
   )
 }
