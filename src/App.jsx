@@ -5,6 +5,8 @@ import { useGSAP } from '@gsap/react';
 import Navbar from './components/navbar'
 import Hero from './components/Hero'
 import Cocktails from './components/Cocktails';
+import About from './components/About';
+import Art from './components/Art'
 
 
 // Need to registeer them becausue they dont get automatically get activated. So, using registerPlugin().
@@ -19,6 +21,8 @@ const App = () => {
       <Navbar/>
       <Hero/>
       <Cocktails/>
+      <About/>
+      <Art />
     </main>
   )
 }
